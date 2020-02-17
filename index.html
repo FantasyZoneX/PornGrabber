@@ -1,18 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title> - Porn Grabber - </title>
+  <title>Porn Grabber</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-
-<!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-
-<!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-
 </head>
 <body>
 <nav class="navbar navbar-inverse">
@@ -33,78 +27,115 @@
     </div>
   </div>
 </nav> 
- <script language="JavaScript" type="text/JavaScript">
- <!-- 
+  <script language="JavaScript" type="text/JavaScript">
  function grabber() {
- var numImages = document.getElementById('numTxt').value;
+ var numImages = Number(document.getElementById('numTxt').value);
  var strtImages = document.getElementById('strtTxt').value;
  var str = document.getElementById("urlTxt").value;
  document.getElementById("PictureDiv").innerHTML = "";
  var pd = document.getElementById('PictureDiv'); 
  if (document.getElementById('addZero').checked) {                      
-	   for (i = strtImages; i < numImages; i++) {
+	   for (i = strtImages; i < numImages + 1; i++) {
 			 if (i < 10) {
-						   var res = str.replace("%num%", "0"+i);
-						   pd.insertAdjacentHTML('beforeend', "<p><img class='img-responsive' src='"+res+"'></p><p>"+res+"</p>");
+						   var res = str.replace(/%num%/g, "0"+i);
+					  pd.insertAdjacentHTML('beforeend', "<div class='col-xs-3'><div class='thumbnail'><a href='#' data-toggle='modal' data-target='#picModal' data-title='"+res+"' data-pic='"+res+"' ><img src='"+res+"' alt='' style='width:100%'></a></div></div>");
 						}
 				   else {
-						   var res = str.replace("%num%", i);
-						   pd.insertAdjacentHTML('beforeend', "<p><img class='img-responsive' src='"+res+"'></p><p>"+res+"</p>");
+						   var res = str.replace(/%num%/g, i);
+					  pd.insertAdjacentHTML('beforeend', "<div class='col-xs-3'><div class='thumbnail'><a href='#' data-toggle='modal' data-target='#picModal' data-title='"+res+"' data-pic='"+res+"' ><img src='"+res+"' alt='' style='width:100%'></a></div></div>");
 						}
 	    }
-   }
-   
+   }   
     else 
          { 
-		    for (i = strtImages; i < numImages; i++)
+		    for (i = strtImages; i < numImages+1; i++)
 			       {
-					  var res = str.replace("%num%", i);
-					  pd.insertAdjacentHTML('beforeend', "<p><img class='img-responsive' src='"+res+"'></p><p>"+res+"</p>");
+					  var res = str.replace(/%num%/g, i);
+					  pd.insertAdjacentHTML('beforeend', "<div class='col-xs-3'><div class='thumbnail'><a href='#' data-toggle='modal' data-target='#picModal' data-title='"+res+"' data-pic='"+res+"' ><img src='"+res+"' alt='' style='width:100%'></a></div></div>"); 
 				   }
 		 }
  }
- //-->
  </script>
+	 <script language="JavaScript" type="text/JavaScript">
+function insertAtCaret(element, text) {
+  if (document.selection) {
+    element.focus();
+    var sel = document.selection.createRange();
+    sel.text = text;
+    element.focus();
+  } else if (element.selectionStart || element.selectionStart === 0) {
+    var startPos = element.selectionStart;
+    var endPos = element.selectionEnd;
+    var scrollTop = element.scrollTop;
+    element.value = element.value.substring(0, startPos) +
+      text + element.value.substring(endPos, element.value.length);
+    element.focus();
+    element.selectionStart = startPos + text.length;
+    element.selectionEnd = startPos + text.length;
+    element.scrollTop = scrollTop;
+  } else {
+    element.value += text;
+    element.focus();
+  }
+}
+</script>
+
+	 <script language="JavaScript" type="text/JavaScript">
+    $(function() {
+       $('#picModal').on('show.bs.modal', function(event) {
+         var button = $(event.relatedTarget);
+         var myTitle = button.data('title');
+		 var pic = button.data('pic');
+         var modal = $(this);
+         modal.find('.modal-title').text(myTitle);
+		 $('#myImg').attr("src", pic);
+       });
+   });
+		</script>
 <div class="container"><br>
 <div class="row test">
-  <div class="col-sm-8">
+    <div class="col">
     <div class="panel panel-danger text-center">
-      <div class="panel-heading">Porn Grabber</div>
+      <div class="panel-heading">Controls</div>
+      <div class="panel-body text-left">
+   <label class="form-inline">Starting from &nbsp;<input name="strtTxt" type="text" id="strtTxt" size="3" class="form-control" value="0"></label>
+   <label class="form-inline">Number of Images to RIP &nbsp;<input name="numTxt" type="text" id="numTxt" size="3" class="form-control" value="20"></label>
+     <p>URL of Image (Use %num% as paceholder)</p>
+ <div class="input-group">
+      		 <input name="urlTxt" type="text" id="urlTxt" class="form-control" value=""/>
+      <div class="input-group-btn">
+        <button type="button" id="urlN" class="btn btn-danger" onclick="insertAtCaret(document.getElementById('urlTxt'),'%num%')">%num%</button>
+      </div>
+</div>
+				     <div class="checkbox">
+               <label><input id="addZero" type="checkbox" value="" checked/>Add Zero Before Number</label>
+             </div>		 
+		 <button type="button" class="btn btn-danger" onclick="grabber()">Grab Now</button>
+	  </div>
+    </div>
+   <div class="modal fade" id="picModal" tabindex="-1"
+        role="dialog" aria-labelledby="exampleModalLabel">
+     <div class="modal-dialog modal-md" role="document">
+       <div class="modal-content">
+         <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal">&times;</button>
+           <h4 class="modal-title" id="exampleModalLabel"></h4>
+         </div>
+         <div class="modal-body">
+		   <img class="img-responsive" id="myImg" src="" style="width: 100%;">
+		         </div>
+       </div>
+     </div>
+   </div>
+  <div class="col">
+    <div class="panel panel-danger text-center">
+      <div class="panel-heading">Result</div>
       <div class="panel-body text-left">
 		<div id="PictureDiv"></div>
 	</div>
     </div>
   </div>
-    <div class="col-sm-4">
-    <div class="panel panel-danger text-center">
-      <div class="panel-heading">Controls</div>
-      <div class="panel-body text-center">
-		 <p>Starting from</p>
-		 <input name="strtTxt" type="text" id="strtTxt" class="form-control" value="1"/><br /> <br />	  
-         <p>Number of Images to RIP</p>
-		 <input name="numTxt" type="text" id="numTxt" class="form-control" value="16"/><br /> <br />
-         <p>URL of Image (Use %num% as paceholder)</p>
-		 <input name="urlTxt" type="text" id="urlTxt" class="form-control" value="%num%"/><br /> <br />
-		     <div class="checkbox">
-               <label><input id="addZero" type="checkbox" value="" />Add Zero Before Number</label>
-             </div>		 
-		 <button type="button" class="btn btn-danger" onclick="grabber()">Grab Now</button>
-		 <div id="curPic"></div>
-	  </div>
-    </div>
-	
-	    <div class="panel panel-danger text-center">
-      <div class="panel-heading">Want more things like this?</div>
-      <div class="panel-body text-center">
-		 <p>Want more things like this?, visit <a href="https://fantasyzonex.github.io/porngrabber">https://fantasyzonex.github.io/PornGrabber</a></p>
-	  </div>
-    </div>
-	
-  </div>
-  
-
-
-  
+</div>
   </div>
 </div>
   <div class="modal fade" id="myModal" role="dialog">
