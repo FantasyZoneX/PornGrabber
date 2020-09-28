@@ -41,11 +41,11 @@
 	   for (i = strtImages; i < numImages + 1; i++) {
 			 if (i < 10) {
 						   var res = str.replace(/%num%/g, "0"+i);
-					  pd.insertAdjacentHTML('beforeend', "<div class='col-xs-3'><div class='thumbnail'><a href='#' data-toggle='modal' data-target='#picModal' data-title='"+res+"' data-pic='"+res+"' ><img src='"+res+"' alt='' style='width:100%'></a></div></div>");
+					  pd.insertAdjacentHTML('beforeend', "<div class='col-xs-6'><div class='thumbnail'><a href='#' data-toggle='modal' data-target='#picModal' data-title='Picture: 0"+i+"' data-pic='"+res+"' ><img src='"+res+"' alt='' style='width:100%'></a><a target='_blank' download='' class='btn btn-danger btn-sm navbar-btn' href='"+res+"'><span class='glyphicon glyphicon-download-alt'></span> Download</a></div></div>");
 						}
 				   else {
 						   var res = str.replace(/%num%/g, i);
-					  pd.insertAdjacentHTML('beforeend', "<div class='col-xs-3'><div class='thumbnail'><a href='#' data-toggle='modal' data-target='#picModal' data-title='"+res+"' data-pic='"+res+"' ><img src='"+res+"' alt='' style='width:100%'></a></div></div>");
+					  pd.insertAdjacentHTML('beforeend', "<div class='col-xs-6'><div class='thumbnail'><a href='#' data-toggle='modal' data-target='#picModal' data-title='Picture: "+i+"' data-pic='"+res+"' ><img src='"+res+"' alt='' style='width:100%'></a><a target='_blank' download='' class='btn btn-danger btn-sm navbar-btn' href='"+res+"'><span class='glyphicon glyphicon-download-alt'></span> Download</a></div></div>");
 						}
 	    }
    }   
@@ -54,7 +54,7 @@
 		    for (i = strtImages; i < numImages+1; i++)
 			       {
 					  var res = str.replace(/%num%/g, i);
-					  pd.insertAdjacentHTML('beforeend', "<div class='col-xs-3'><div class='thumbnail'><a href='#' data-toggle='modal' data-target='#picModal' data-title='"+res+"' data-pic='"+res+"' ><img src='"+res+"' alt='' style='width:100%'></a></div></div>"); 
+					  pd.insertAdjacentHTML('beforeend', "<div class='col-xs-6'><div class='thumbnail'><a href='#' data-toggle='modal' data-target='#picModal' data-title='Picture: "+i+"' data-pic='"+res+"' ><img src='"+res+"' alt='' style='width:100%'></a><a target='_blank' download='' class='btn btn-danger btn-sm navbar-btn' href='"+res+"'><span class='glyphicon glyphicon-download-alt'></span> Download</a></div></div>");
 				   }
 		 }
  }
@@ -92,6 +92,7 @@ function insertAtCaret(element, text) {
          var modal = $(this);
          modal.find('.modal-title').text(myTitle);
 		 $('#myImg').attr("src", pic);
+		$('#dld').attr("href", pic);
        });
    });
 		</script>
@@ -118,7 +119,7 @@ function insertAtCaret(element, text) {
     </div>
    <div class="modal fade" id="picModal" tabindex="-1"
         role="dialog" aria-labelledby="exampleModalLabel">
-     <div class="modal-dialog modal-md" role="document">
+     <div class="modal-dialog modal-sm" role="document">
        <div class="modal-content">
          <div class="modal-header">
            <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -126,6 +127,7 @@ function insertAtCaret(element, text) {
          </div>
          <div class="modal-body">
 		   <img class="img-responsive" id="myImg" src="" style="width: 100%;">
+		   <a target='_blank' id="dld" download='' class='btn btn-danger btn-sm navbar-btn' href=''><span class='glyphicon glyphicon-download-alt'></span> Download</a>
 		         </div>
        </div>
      </div>
