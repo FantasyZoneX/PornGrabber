@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Porn Grabber</title>
+  <title>Ripper</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Latest compiled and minified CSS -->
@@ -20,7 +20,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" href="./index.html"><span class="glyphicon glyphicon-th-list"></span> Porn Grabber</a>
+      <a class="navbar-brand" href="./index.html"><span class="glyphicon glyphicon-th-list"></span> Ripper</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
@@ -34,29 +34,71 @@
  function grabber() {
  var numImages = Number(document.getElementById('numTxt').value);
  var strtImages = document.getElementById('strtTxt').value;
+ //New Code
+  var numG = Number(document.getElementById('numG').value);
+  //for placing zero in gallery number
+  var addzeroG = '';
+  //for placing zero in picture number
+  var addzeroP = '';
+ var strtG = document.getElementById('strtG').value;
+ //end new code
  var str = document.getElementById("urlTxt").value;
+ //Clear the contents of stub div
  document.getElementById("PictureDiv").innerHTML = "";
- var pd = document.getElementById('PictureDiv'); 
- if (document.getElementById('addZero').checked) {                      
+ var pd = document.getElementById('PictureDiv');
+
+if (document.getElementById('addZeroGlry').checked) {
+		//alert('Hello from zero');
+		//add zero in gallery is checked
+		addzeroG = '0';
+} else { 
+		//add zero in gallery is unchecked
+		addzeroG = '';
+}
+	//test the value of addZeroGlry
+	//alert('Gallery Zero value: * '+addzeroG+' *')
+	//test passed
+	
+	
+if (document.getElementById('addZero').checked) {
+		//alert('Hello from zero');
+		//add zero in gallery is checked
+		addzeroP = '0';
+} else { 
+		//add zero in gallery is unchecked
+		addzeroP = '';
+}
+	//test the value of addZeroGlry
+	//alert('Pic Zero value: * '+addzeroP+' *')
+	//test passed	
+ 
+ //if (document.getElementById('addZero').checked) { } //handled in variable
+		//If we need to add the zero before image number then
+		//starting at image to do add gallery option first
+
+
+    //gallery loop
+     for (j = strtG; j < numG + 1; j++) {
+
+      if (j <10 ) {
+
+      //image loop
 	   for (i = strtImages; i < numImages + 1; i++) {
 			 if (i < 10) {
-						   var res = str.replace(/%num%/g, "0"+i);
-					  pd.insertAdjacentHTML('beforeend', "<div class='col-xs-6'><div class='thumbnail'><a href='#' data-toggle='modal' data-target='#picModal' data-title='Picture: 0"+i+"' data-pic='"+res+"' ><img src='"+res+"' alt='' style='width:100%'></a><a target='_blank' download='' class='btn btn-danger btn-sm navbar-btn' href='"+res+"'><span class='glyphicon glyphicon-download-alt'></span> Download</a></div></div>");
+						   var res2 = str.replace(/%num%/g, addzeroP+i);
+               var res = res2.replace(/%glry%/g, addzeroG+j);
+					  pd.insertAdjacentHTML('beforeend', "<div class='col-xs-3'><div class='thumbnail'><a href='#' data-toggle='modal' data-target='#picModal' data-title='Picture: 0"+i+"' data-pic='"+res+"' ><img src='"+res+"' alt='' style='width:100%'></a><a target='_blank' download='' class='btn btn-danger btn-sm navbar-btn' href='"+res+"'><span class='glyphicon glyphicon-download-alt'></span> Download</a></div></div>");
 						}
 				   else {
-						   var res = str.replace(/%num%/g, i);
-					  pd.insertAdjacentHTML('beforeend', "<div class='col-xs-6'><div class='thumbnail'><a href='#' data-toggle='modal' data-target='#picModal' data-title='Picture: "+i+"' data-pic='"+res+"' ><img src='"+res+"' alt='' style='width:100%'></a><a target='_blank' download='' class='btn btn-danger btn-sm navbar-btn' href='"+res+"'><span class='glyphicon glyphicon-download-alt'></span> Download</a></div></div>");
+						   var res2 = str.replace(/%num%/g, i);
+               var res = res2.replace(/%glry%/g, addzeroG+j);
+					  pd.insertAdjacentHTML('beforeend', "<div class='col-xs-3'><div class='thumbnail'><a href='#' data-toggle='modal' data-target='#picModal' data-title='Picture: "+i+"' data-pic='"+res+"' ><img src='"+res+"' alt='' style='width:100%'></a><a target='_blank' download='' class='btn btn-danger btn-sm navbar-btn' href='"+res+"'><span class='glyphicon glyphicon-download-alt'></span> Download</a></div></div>");
 						}
 	    }
-   }   
-    else 
-         { 
-		    for (i = strtImages; i < numImages+1; i++)
-			       {
-					  var res = str.replace(/%num%/g, i);
-					  pd.insertAdjacentHTML('beforeend', "<div class='col-xs-6'><div class='thumbnail'><a href='#' data-toggle='modal' data-target='#picModal' data-title='Picture: "+i+"' data-pic='"+res+"' ><img src='"+res+"' alt='' style='width:100%'></a><a target='_blank' download='' class='btn btn-danger btn-sm navbar-btn' href='"+res+"'><span class='glyphicon glyphicon-download-alt'></span> Download</a></div></div>");
-				   }
-		 }
+
+          }
+
+      }  
  }
  </script>
 	 <script language="JavaScript" type="text/JavaScript">
@@ -104,16 +146,20 @@ function insertAtCaret(element, text) {
       <div class="panel-body text-left">
    <label class="form-inline">Starting from &nbsp;<input name="strtTxt" type="text" id="strtTxt" size="3" class="form-control" value="0"></label>
    <label class="form-inline">Number of Images to RIP &nbsp;<input name="numTxt" type="text" id="numTxt" size="3" class="form-control" value="20"></label>
-     <p>URL of Image (Use %num% as paceholder)</p>
+<label class="form-inline">Start Gallery &nbsp;<input name="strtG" type="text" id="strtG" size="3" class="form-control" value="0"></label>
+   <label class="form-inline">Number of Galleries &nbsp;<input name="numG" type="text" id="numG" size="0" class="form-control" value="10"></label>   
+   <p>URL of Image (Use %num% as image placeholder and %glry% as gallery placeholder)</p>
  <div class="input-group">
       		 <input name="urlTxt" type="text" id="urlTxt" class="form-control" value=""/>
       <div class="input-group-btn">
-        <button type="button" id="urlN" class="btn btn-danger" onclick="insertAtCaret(document.getElementById('urlTxt'),'%num%')">%num%</button>
+ <button type="button" id="glN" class="btn btn-danger" onclick="insertAtCaret(document.getElementById('urlTxt'),'%glry%')">%glry%</button>       
+ <button type="button" id="urlN" class="btn btn-danger" onclick="insertAtCaret(document.getElementById('urlTxt'),'%num%')">%num%</button>		
       </div>
 </div>
 				     <div class="checkbox">
-               <label><input id="addZero" type="checkbox" value=""/>Add Zero Before Number</label>
-             </div>		 
+               <label class="form-inline"><input id="addZero" type="checkbox" value=""/>Add Zero Before Image Number</label>
+			   <label class="form-inline"><input id="addZeroGlry" type="checkbox" value=""/>Add Zero Before Gallery Number</label>
+             </div>			 
 		 <button type="button" class="btn btn-danger" onclick="grabber()">Grab Now</button>
 	  </div>
     </div>
@@ -148,14 +194,14 @@ function insertAtCaret(element, text) {
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">About Porn Grabber</h4>
+          <h4 class="modal-title">About Ripper</h4>
         </div>
         <div class="modal-body">
           <p>
 		  <img class="img-responsive"  src="./assets/icon/babe.png" style="float:left;">
 		  How many times have you tried to save all the images from a hot gallery you have stumbled upon during your porn browsing?
 		  </p>
-          <p>With porn grabber you can get all the pictures of your favourite gallery. Simply put the URL of the first image in the gallery set some variable and click the grab button. Porn Grabber will get all the pictures from that gallery and then you can simply save the grabbed data all at once.</p>
+          <p>With Ripper you can get all the pictures of your favourite gallery. Simply put the URL of the first image in the gallery set some variable and click the grab button. Ripper will get all the pictures from that gallery and then you can simply save the grabbed data all at once.</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-dismiss="modal">OK</button>
